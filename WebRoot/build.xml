@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<project name="gys" default="build" basedir=".">
+	<property name="tomcat.home" value="C:\Tomcat 5.0" />
+	<property name="svn.url" value="https://192.168.01:8443/svn/pss/pss/WebRoot" />
+	<property name="tomcat.lib" value="${tomcat.home}\common\lib" />
+	<property name="dest.dir" value="deploy/WebRoot/WEB-INF/classes" />
+	<property name="src.dir" value="deploy/WebRoot/WEB-INF/src" />
+	<property name="war.dest" value="deploy/war" />
+	<property name="local.dir" value="deploy/WebRoot" />
+	<property name="version" value="0.90" />
+	<property name="docsrc.dir" value="WebRoot/WEB-INF/src" />
+	<property name="doc.dir" value="doc" />
+
+	<tstamp>
+		<format property="date" pattern="yyyy-MM-dd" offset="-5" unit="hour" />
+	</tstamp>
+
+	<path id="lib.classpath">
+		<fileset dir="lib">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	<target name="hibernate" description="--> generator hibernate hbm.xml">
+		<taskdef name="hibernatedoclet" classname="xdoclet.modules.hibernate.HibernateDocletTask" classpathref="lib.classpath" />
+		<hibernatedoclet destdir="src" excludedtags="@version,@author,@todo" force="src" verbose="false">
+			<fileset dir="src">
+				<include name="**/dataObjects/*/Td37*.java" />
+			</fileset>
+			<hibernate version="3.0" />
+		</hibernatedoclet>
+	</target>
+
+
+	<!-- 从svn取出文件 -->
+	<taskdef name="svn" classname="org.tigris.subversion.svnant.SvnTask" classpathref="lib.classpath" />
+	<target name="prepare" description="Prepare the dirs for other tasks">
+		<delete dir="${local.dir}" />
+		<mkdir dir="${local.dir}" />
+	</target>
+	<target name="checkout" depends="prepare">
+		<svn javahl="true" username="jyf" password="jyf">
+			<checkout url="${svn.url}" destPath="${local.dir}" />
+		</svn>
+	</target>
+
+	<!-- 编译源文件 -->
+	<target name="init">
+		<mkdir dir="${dest.dir}" />
+	</target>
+	<target name="compile">
+		<javac srcdir="${src.dir}" destdir="${dest.dir}">
+			<classpath>
+				<fileset dir="${tomcat.lib}">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="deploy/WebRoot/WEB-INF/lib">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+		<copy todir="${dest.dir}">
+			<fileset dir="${src.dir}">
+				<include name="**/*.xml" />
+			</fileset>
+		</copy>
+	</target>
+	<target name="clean">
+		<delete dir="${dest.dir}" />
+	</target>
+
+
+	<!-- 发布war包 -->
+	<target name="buildwar">
+		<mkdir dir="${war.dest}" />
+		<war warfile="${war.dest}/pss.war" webxml="WebRoot/WEB-INF/web.xml">
+			<fileset dir="WebRoot">
+			</fileset>
+		</war>
+	</target>
+
+	<!-- 生成javadoc -->
+	<target name="createdoc">
+		<delete dir="${doc.dir}" />
+		<mkdir dir="${doc.dir}" />
+		<javadoc destdir="${doc.dir}" encoding="GBK" docencoding="GBK">
+			<packageset dir="${docsrc.dir}">
+				<include name="**" />
+			</packageset>
+		</javadoc>
+	</target>
+
+	<!-- 发布项目 -->
+	<target name="build">
+		<!-- 取出svn资源 -->
+		<echo message="取出svn资源" />
+		<antcall target="checkout">
+		</antcall>
+
+		<!-- 编译源文件 -->
+		<echo message="清除classes目录" />
+		<antcall target="clean">
+		</antcall>
+		<echo message="创建classes目录" />
+		<antcall target="init">
+		</antcall>
+		<echo message="编译源文件" />
+		<antcall target="compile">
+		</antcall>
+
+		<!-- 清除src -->
+		<echo message="清除src" />
+		<delete dir="deploy/WebRoot/WEB-INF/src" />
+
+		<!-- 发布war包 -->
+		<echo message="发布war包在${war.dest}" />
+		<antcall target="buildwar">
+		</antcall>
+
+		<!-- 删除临时文件 -->
+		<echo message="删除临时文件" />
+		<delete dir="${local.dir}" />
+
+		<echo message="ok" />
+	</target>
+</project>

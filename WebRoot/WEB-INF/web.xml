@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+<context-param>
+	<param-name>contextConfigLocation</param-name>
+	<param-value>/WEB-INF/spring-servlet.xml</param-value>
+</context-param>
+<filter>
+	<filter-name>encoding</filter-name>
+	<filter-class>com.netsky.shop.filter.EncodingFilter</filter-class>
+</filter>
+<filter-mapping>
+	<filter-name>encoding</filter-name>
+	<url-pattern>*.do</url-pattern>
+</filter-mapping>
+<listener>
+	<listener-class>
+		org.springframework.web.context.ContextLoaderListener
+	</listener-class>
+</listener>
+<!-- 对像js,css,gif等静态文件的访问，需要映射到默认的servlet -->
+<!-- 这里省去对静态资源url的配置，当然这样的话tomcat控制台就会报警告了，对html的请求、页面中的图片及css效果也是无法访问的 
+	不过我们这是搭基本环境嘛，就先不要图片吧，如果想解决这个问题，可以看我另外一篇文章： -->
+<!-- 配置spring核心servlet -->
+<servlet>
+	<servlet-name>spring</servlet-name>
+	<servlet-class>
+		org.springframework.web.servlet.DispatcherServlet
+	</servlet-class>
+	<load-on-startup>1</load-on-startup>
+</servlet>
+<servlet-mapping>
+	<servlet-name>spring</servlet-name>
+	<url-pattern>*.do</url-pattern>
+	<!-- url配置为/，不带文件后缀，会造成其它静态文件(js，css等)不能访问。如配为*.do，则不影响静态文件的访问 -->
+</servlet-mapping>
+<welcome-file-list>
+	<welcome-file>index.html</welcome-file>
+</welcome-file-list>
+</web-app>

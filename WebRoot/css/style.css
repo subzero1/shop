@@ -1,0 +1,122 @@
+/*
+Name: Nice Login and Signup Panel using Mootools 1.2
+Tutorial URI: http://web-kreation.com/demos/login_form_mootools_1.2/
+Author: Jeremie Tisseau
+Author URI: http://web-kreation.com/
+Date: August 2008
+
+	The CSS, XHTML and design is released under Creative Common License 2.5:
+	http://creativecommons.org/licenses/by-sa/2.5/
+
+*/       
+
+html, body,form {border: 0; margin: 0; padding: 0;}
+
+body {
+  	font: 85%/0.9 arial, helvetica, sans-serif;
+	background: #99A989 url(../images/bg.jpg) repeat 0 0;
+  	line-height: 130%;
+  	width: 100%;
+  	min-width: 970px;
+  	color: black;
+  	background:#fff;
+}
+
+a {
+	color: #0099CC;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #00CCFF;
+}
+
+a img {
+  border: none;/*remove border for linked images*/
+}
+
+h1 {
+	font-size: 1.6em;
+	height: 20px;
+	padding-top: 0;
+}
+
+h2{
+	font-size: 1.2em;
+	height: 20px;
+	padding-top: 0;
+}
+
+.highlight {background-color:#FF9D9D;border-bottom:#F30 1px solid;border-top:#F30 1px solid;padding: 4px 10px}
+
+/***** Main Layout ****/
+#container {
+  	width: 100%;
+  	height: 100%;
+  	text-align: center;/* IE fix to center the page */
+}
+
+#content {
+  	width: 100%;
+  	margin: 0 auto;/* center the page in Firefox */
+  	text-align: left;
+	padding: 20px;
+}
+
+/*----------*//*luo 2011-12*/
+.button{background:url(../images/button.png);color:#333;width:90px;height:29px;line-height:30px;text-align:center;border:solid 0px #fff;cursor:pointer;}
+.button2{background:url(../images/button2.png) left bottom;color:#fff;width:90px;height:29px;line-height:30px;text-align:center;font-weight:bold;border:solid 0px #fff;cursor:pointer;}
+
+.head{border-bottom:dotted 2px #ccc;line-height:200%;}
+
+.buy th{border-bottom:solid 1px #333;}
+.buy td{border-bottom:dashed 1px #666;padding:0 5px;}
+.buyinput{width:270px;height:29px;font-size:28px;font-weight:bolder;font-family:ºÚÌå;color:#c00;border:solid 4px #9ec400;}
+.buybutton{background:url(../images/buybutton.jpg) top no-repeat;height:39px;width:88px;border:0;line-height:38px;cursor:pointer;}
+.clearbutton{background:url(../images/clearbutton.jpg) top no-repeat;height:39px;width:88px;border:0;line-height:38px;cursor:pointer;}
+.htbutton{background:url(../images/htbutton.jpg) top no-repeat;height:39px;width:88px;border:0;line-height:38px;cursor:pointer;}
+
+
+.good{border-top:dotted 2px #ccc;padding-top:10px;}
+.goodtable th{border:solid 1px #666;height:25px;line-height:24px;background:#f0f0f0;}
+.goodtable td{border:solid 1px #666;height:23px;padding:0 5px 0 0;}
+.goodtable{margin-top:5px;}
+
+.payinfo th,.payinfo td{border:solid 1px #666;}
+.payinfo th{height:25px;line-height:24px;background:#f0f0f0;}
+
+.chengben{margin:5px 0;border-bottom:dashed 1px #ccc;padding:5px 0;}
+.chengbennum th{border:solid 1px #666;height:25px;line-height:24px;background:#f0f0f0;}
+.chengbennum td{border:solid 1px #666;height:23px;padding:0 5px 0 0;text-align:right;}
+
+.chengbensearch {margin:8px 0;}
+.chengbensearch h3{margin:5px;padding:0px;}
+.chengbentab th{border:solid 1px #666;height:25px;line-height:24px;background:#f0f0f0;}
+.chengbentab td{border:solid 1px #666;height:23px;padding:0 5px 0 0;}
+
+.jinhuolist{margin:5px 0;border-bottom:dashed 1px #ccc;padding:5px 0;}
+.jinhuolist th{border:solid 1px #666;height:25px;line-height:24px;background:#f0f0f0;}
+.jinhuolist td{border:solid 1px #666;height:23px;padding:0 5px 0 0;text-align:right;}
+.jinhuotab{margin-top:8px;}
+.jinhuotab th{border:solid 1px #666;padding:0 5px 0 0;font-weight:normal;text-align:right;height:22px;line-height:22px;}
+.jinhuotab td{border:solid 1px #666;padding:0 0px 0 0;}
+.jinhuotab input[type=text]{border:solid 1px #fff;text-align:left;width:95%;height:22px;line-height:22px;}
+.jinhuotab textarea{border:solid 1px #fff;text-align:left;width:98%;height:100%;line-height:22px;resize:none;}
+
+
+.jinhuodantab caption{padding-left:95px;}
+.jinhuodantab th{border:solid 1px #666;height:25px;line-height:24px;background:#f0f0f0;}
+.jinhuodantab td{border:solid 1px #666;height:23px;padding:0 5px 0 0;text-align:right;}
+
+.shangpinlist a{height:25px;line-height:25px;border-bottom:dashed 1px #ccc;width:100%;}
+
+
+#oldpassword,#newpassword,#repassword{border:0px;}
+
+.spwh td,.spwh th{height:25px;line-height:25px;border:solid 1px #333;background:#FFDFDF;}
+.spwh td{text-align:left;border-left:0px;padding-left:2px;}
+.spwh th{text-align:right;font-weight:normal;border-right:0px;padding-right:2px;}
+
+
+.leixinglist ul {list-style:none;}
+.leixinglist ul li{width:120px;font-size:14px;color:#c00;cursor:pointer;background:#FFDFDF;border:solid 1px #ccc;}

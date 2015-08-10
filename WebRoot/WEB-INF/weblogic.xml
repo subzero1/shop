@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<weblogic-web-app xmlns="http://www.bea.com/ns/weblogic/90">
+	<context-root>/yjr_shop</context-root>
+	<container-descriptor>
+		<session-monitoring-enabled>true</session-monitoring-enabled>
+	</container-descriptor>
+</weblogic-web-app>
+
